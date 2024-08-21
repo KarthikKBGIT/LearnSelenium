@@ -8,10 +8,16 @@ public class DynamicDropdown {
     public static void main(String[] args) throws InterruptedException {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
-        driver.findElement(By.id("ctl00_mainContent_ddl_originStation1")).click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).click();
+        driver.findElement(By.xpath("//div[@id='marketCityPair_1']//select[contains(@id,'originStation')]")).click();
         driver.findElement(By.xpath("//div[@id='marketCityPair_1']//select[contains(@id,'originStation')]//option[@value='BLR']")).click();
         driver.findElement(By.xpath("//div[contains(@id,'destinationStation')]//a[@value='MAA']")).click();
+
+        //CheckBox Handling
+        System.out.println(driver.findElement(By.xpath("//input[contains(@id,'SeniorCitizenDiscount')]")).isSelected());
+        driver.findElement(By.xpath("//input[contains(@id,'SeniorCitizenDiscount')]")).click();
+        System.out.println(driver.findElement(By.xpath("//input[contains(@id,'SeniorCitizenDiscount')]")).isSelected());
     }
 }
