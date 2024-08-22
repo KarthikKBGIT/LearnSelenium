@@ -2,6 +2,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.time.Duration;
@@ -9,6 +11,7 @@ import java.time.Duration;
 public class Locators {
     public static void main(String[] args) throws InterruptedException {
         WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         //WebDriver driver = new EdgeDriver();
         driver.manage().window().maximize();
         driver.get("http://www.google.com");
@@ -35,9 +38,10 @@ public class Locators {
         driver.findElement(By.xpath("//input[contains(@id,'Username')]")).sendKeys("karthik");
         driver.findElement(By.cssSelector("input[name*='Pass']")).sendKeys(passWord);
         System.out.println(passWord);
-        Thread.sleep(3000);
-        driver.findElement(By.cssSelector(".signInBtn")).click();
-        Thread.sleep(3000);
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".signInBtn")));
+        System.out.println("Submit button is clickable");
+        driver.findElement(By.xpath("//button[text()='Sign In']")).click();
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector("div.login-container p"))));
         System.out.println(driver.findElement(By.cssSelector("div.login-container p")).getText());
         Assert.assertEquals(driver.findElement(By.cssSelector("div.login-container p")).getText(), "You are successfully logged in.");
         driver.quit();
